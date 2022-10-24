@@ -11,7 +11,18 @@ export default class Hook extends Graphic {
     };
 
     draw() {
-        this.ctx.drawImage(this.image, this.x, this, y, this.width, this.height);
+        this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    };
+
+    moveRight() {
+        if (this.x >= this.canvas.width - this.width - 5) return;
+
+        this.x += 10;
+    };
+
+    moveLeft() {
+        if (this.x <= 5) return;
+
+        this.x -= 10;
     };
 };
-
