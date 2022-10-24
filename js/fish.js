@@ -54,6 +54,5 @@ export default class Fish extends Graphic {
             );
         };
         this.y -= 2;
-        console.log(this.x, this.y)
     };
 };

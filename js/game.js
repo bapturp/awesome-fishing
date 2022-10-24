@@ -19,7 +19,8 @@ class Game {
         this.hook = new Hook(this.canvas, this.ctx);
         this.fishes = []
         this.createFishes();
-        this.fish = new Fish(this.canvas, this.ctx)
+        this.fish = new Fish(this.canvas, this.ctx);
+        this.orientation = [[null, null, null], [null, null, null]];
         this.createEventListers();
     };
 
@@ -38,13 +39,26 @@ class Game {
 
     createSmartphoneEvent() {
         window.addEventListener('deviceorientation', event => {
-            if (event.gamma > 0) {
+            if (this.orientation[0][0] == null) {
+                this.orientation[0][0] = event.alpha;
+                this.orientation[0][1] = event.beta;
+                this.orientation[0][2] = event.gamma;
+            };
+
+            this.orientation[1][0] = event.alpha;
+            this.orientation[1][1] = event.beta;
+            this.orientation[1][0] = event.gamma;
+
+
+            if (this.orientation[0][0] < this.orientation[1][0]) {
                 this.hook.moveRight();
-            } else if (event.gamma < 0) {
-                this.hook.moveRight();
-            }
-        })
-    }
+            } else if (this.orientation[0][0] > this.orientation[1][0]) {
+                this.hook.moveLeft();
+            };
+            this.orientation.shift();
+            this.orientation.push([null, null, null]);
+        });
+    };
 
     createEventListers() {
         document.addEventListener('keydown', event => {
