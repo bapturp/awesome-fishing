@@ -1,6 +1,17 @@
-export default class seaCreature {
+import Graphic from "./graphic";
+
+
+export default class seaCreature extends Graphic {
     constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
+        super(canvas, ctx);
+
+    };
+
+    draw() {
+        this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+    };
+
+    move() {
+
     };
 };

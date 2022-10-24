@@ -18,7 +18,9 @@
 }
 
 #hook,
-#fish1,
-#fish2 {
+#fish1-right,
+#fish1-left,
+#fish2-right,
+#fish2-left {
   display: none;
 }

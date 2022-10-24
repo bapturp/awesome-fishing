@@ -2,6 +2,7 @@
 // (c) Baptiste Dromer 2022
 
 import Depth from './depth.js';
+import Fish from './fish.js';
 import Hook from './hook.js'
 
 const GAME_SPEED = 60;
@@ -16,8 +17,17 @@ class Game {
         this.lastRenderTime = 0;
         this.depth = new Depth(this.canvas, this.ctx);
         this.hook = new Hook(this.canvas, this.ctx);
+        this.fishes = []
+        this.createFishes();
+        this.fish = new Fish(this.canvas, this.ctx)
         this.createEventListers();
     };
+
+    createFishes() {
+        for (let i = 0; i < 10; i++) {
+            this.fishes.push(new Fish(this.canvas, this.ctx));
+        }
+    }
 
     createCanvas() {
         this.canvas = document.getElementById('canvas1');
@@ -25,6 +35,16 @@ class Game {
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext('2d');
     };
+
+    createSmartphoneEvent() {
+        window.addEventListener('deviceorientation', event => {
+            if (event.gamma > 0) {
+                this.hook.moveRight();
+            } else if (event.gamma < 0) {
+                this.hook.moveRight();
+            }
+        })
+    }
 
     createEventListers() {
         document.addEventListener('keydown', event => {
@@ -37,7 +57,18 @@ class Game {
                     break;
             };
         });
-        return;
+
+        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+            DeviceOrientationEvent.requestPermission()
+                .then(permissionState => {
+                    if (permissionState === 'granted') {
+                        this.createSmartphoneEvent()
+                    }
+                })
+                .catch(console.error)
+        } else {
+            this.createSmartphoneEvent()
+        };
     };
 
     startGame(currentTime) {
@@ -66,7 +97,10 @@ class Game {
     draw() {
         this.depth.draw();
         this.hook.draw();
-
+        this.fishes.forEach(e => {
+            e.move();
+            e.draw();
+        })
         return;
     };
 
