@@ -1,17 +1,9 @@
-import Graphic from "./graphic";
+// extends graphic and add depth properties
 
+import Graphic from "./graphic.js";
 
 export default class seaCreature extends Graphic {
-    constructor(canvas, ctx) {
-        super(canvas, ctx);
-
-    };
-
-    draw() {
-        this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-    };
-
-    move() {
-
+    constructor(canvas, ctx, maxDepth) {
+        super(canvas, ctx, maxDepth);
     };
 };

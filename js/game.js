@@ -14,19 +14,20 @@ class Game {
         this.createCanvas();
         this.lastRenderTime = 0;
         this.gameOver = false;
-        this.lastRenderTime = 0;
-        this.depth = new Depth(this.canvas, this.ctx);
+        this.maxDepth = 500;
+        this.currentDepth = 0;
+        this.gameDirection = 1 // 1 in going down, -1 up
+        this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
         this.fishes = []
         this.createFishes();
-        this.fish = new Fish(this.canvas, this.ctx);
         this.orientation = [[null, null, null], [null, null, null]];
         this.createEventListers();
     };
 
     createFishes() {
         for (let i = 0; i < 10; i++) {
-            this.fishes.push(new Fish(this.canvas, this.ctx));
+            this.fishes.push(new Fish(this.canvas, this.ctx, this.maxDepth));
         }
     }
 
@@ -104,15 +105,34 @@ class Game {
     };
 
     update() {
+        if (this.currentDepth === this.maxDepth) {
+            this.gameDirection = -1; // revert game direction
+        }
 
-        return;
+        switch (this.gameDirection) {
+            case 1:
+                this.currentDepth += 1;
+                break;
+            case -1:
+                this.currentDepth -= 1;
+                break;
+        };
+
+        if (this.gameDirection === -1 && this.currentDepth === 0) {
+            this.gameOver = true;
+        }
     };
 
+    endGame() {
+
+    }
+
     draw() {
+        this.depth.move(this.currentDepth)
         this.depth.draw();
         this.hook.draw();
         this.fishes.forEach(e => {
-            e.move();
+            e.move(this.gameDirection);
             e.draw();
         })
         return;
