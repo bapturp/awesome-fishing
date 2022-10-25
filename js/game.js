@@ -88,7 +88,9 @@ class Game {
 
     startGame(currentTime) {
         if (this.gameOver) {
-            window.location = '/';
+            // window.location = '/';
+            console.log('Game stop')
+            return cancelAnimationFrame(currentTime)
         };
 
         // https://stackoverflow.com/questions/48816441/how-to-use-requestanimationframe-inside-a-class-object
