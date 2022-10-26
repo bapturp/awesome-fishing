@@ -9,7 +9,7 @@ export default class Hook extends Graphic {
         this.x = this.canvas.width / 2 - this.width / 2;
         this.y = this.canvas.height / 2 - this.height / 2;
         this.collisionCoefReducer = 0.1;
-        this.moveSpeed = 5;
+        this.moveSpeed = 10;
     };
 
     drawLine() {

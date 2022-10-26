@@ -38,9 +38,9 @@ class Game {
 
     createSmartphoneEvent() {
         window.addEventListener('devicemotion', event => {
-            if (event.rotationRate.gamma > 10) {
+            if (event.rotationRate.gamma > 5) {
                 this.hook.moveRight()
-            } else if (event.rotationRate.gamma < -10) {
+            } else if (event.rotationRate.gamma < 5) {
                 this.hook.moveLeft()
             };
         });
