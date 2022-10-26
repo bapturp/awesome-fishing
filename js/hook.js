@@ -8,7 +8,8 @@ export default class Hook extends Graphic {
         this.height = 50;
         this.x = this.canvas.width / 2 - this.width / 2;
         this.y = this.canvas.height / 2 - this.height / 2;
-        this.collisionCoefReducer = 0.1
+        this.collisionCoefReducer = 0.1;
+        this.moveSpeed = 5;
     };
 
     drawLine() {
@@ -30,13 +31,13 @@ export default class Hook extends Graphic {
     moveRight() {
         if (this.x >= this.canvas.width - this.width - 5) return;
 
-        this.x += 10;
+        this.x += this.moveSpeed;
     };
 
     moveLeft() {
         if (this.x <= 5) return;
 
-        this.x -= 10;
+        this.x -= this.moveSpeed;
     };
 
     topEdge() {
