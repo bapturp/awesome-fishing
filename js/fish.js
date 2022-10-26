@@ -94,7 +94,7 @@ export default class Fish extends Graphic {
 
     moveWithHook() {
         this.y = this.hook.y + this.hook.height
-        this.x = this.hook.x + this.hookOffset
+        this.x = this.hook.x + (this.hook.width / 2) + this.hookOffset
     };
 
     topEdge() {

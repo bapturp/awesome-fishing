@@ -6,6 +6,11 @@ import Fish from './fish.js';
 import Hook from './hook.js';
 import fishAdder from './fishAdder.js';
 
+const startButton = document.getElementById('start-button');
+const startScreen = document.getElementById('start-screen');
+const gameBoard = document.getElementById('canvas1');
+const scoreScreen = document.getElementById('score-screen');
+
 const GAME_SPEED = 60;
 
 class Game {
@@ -20,36 +25,29 @@ class Game {
         this.gameDirection = 1 // 1 in going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
-        this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth, this.hook)
-        // this.createFishes();
+        this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth, this.hook);
         this.orientation = [[null, null, null], [null, null, null]];
         this.createEventListers();
     };
 
-    // createFishes() {
-    //     for (let i = 0; i < 10; i++) {
-    //         this.fishes.push(new Fish(this.canvas, this.ctx, this.maxDepth));
-    //     }
-    // }
-
     createCanvas() {
         this.canvas = document.getElementById('canvas1');
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.width = 400;
+        this.canvas.height = 900;
         this.ctx = this.canvas.getContext('2d');
     };
 
     createSmartphoneEvent() {
-        window.addEventListener('deviceorientation', event => {
+        window.addEventListener('devicemotion', event => {
             if (this.orientation[0][0] == null) {
-                this.orientation[0][0] = event.alpha;
-                this.orientation[0][1] = event.beta;
-                this.orientation[0][2] = event.gamma;
+                this.orientation[0][0] = event.rotationRate.alpha;
+                this.orientation[0][1] = event.rotationRate.beta;
+                this.orientation[0][2] = event.rotationRate.gamma;
             };
 
-            this.orientation[1][0] = event.alpha;
-            this.orientation[1][1] = event.beta;
-            this.orientation[1][0] = event.gamma;
+            this.orientation[1][0] = event.rotationRate.alpha;
+            this.orientation[1][1] = event.rotationRate.beta;
+            this.orientation[1][2] = event.rotationRate.gamma;
 
 
             if (this.orientation[0][0] < this.orientation[1][0]) {
@@ -74,24 +72,23 @@ class Game {
             };
         });
 
-        if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-            DeviceOrientationEvent.requestPermission()
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+            DeviceMotionEvent.requestPermission()
                 .then(permissionState => {
                     if (permissionState === 'granted') {
-                        this.createSmartphoneEvent()
-                    }
+                        this.createSmartphoneEvent();
+                    };
                 })
-                .catch(console.error)
+                .catch(console.error);
         } else {
-            this.createSmartphoneEvent()
+            this.createSmartphoneEvent();
         };
     };
 
     startGame(currentTime) {
         if (this.gameOver) {
-            // window.location = '/';
-            console.log('Game stop')
-            return cancelAnimationFrame(currentTime)
+            this.endGame()
+            return cancelAnimationFrame(currentTime);
         };
 
         // https://stackoverflow.com/questions/48816441/how-to-use-requestanimationframe-inside-a-class-object
@@ -110,18 +107,18 @@ class Game {
     checkCollision(fish, hook) {
         const isInX =
             fish.rightEdge() >= hook.leftEdge() &&
-            fish.leftEdge() <= hook.rightEdge()
+            fish.leftEdge() <= hook.rightEdge();
         const isInY =
             fish.topEdge() <= hook.bottomEdge() &&
-            fish.bottomEdge() >= hook.topEdge()
-        return isInX && isInY
+            fish.bottomEdge() >= hook.topEdge();
+        return isInX && isInY;
     };
 
     update() {
         this.fishes.forEach(fish => {
             if (this.checkCollision(fish, this.hook)) {
-                this.gameDirection = -1
-                fish.isHooked = true
+                this.gameDirection = -1;
+                fish.isHooked = true;
             };
         });
 
@@ -143,14 +140,13 @@ class Game {
         }
     };
 
-
-
     endGame() {
-
-    }
+        gameBoard.hidden = true;
+        scoreScreen.hidden = false;
+    };
 
     draw() {
-        this.depth.move(this.currentDepth)
+        this.depth.move(this.currentDepth);
         this.depth.draw();
         this.hook.draw();
         this.fishes.forEach(e => {
@@ -159,13 +155,16 @@ class Game {
         });
         return;
     };
-
 };
 
 
 // start the game
 window.addEventListener('load', () => {
-    const game = new Game();
-    game.startGame();
+    const startButton = document.getElementById('start-button')
+    startButton.addEventListener('click', () => {
+        startScreen.hidden = true
+        gameBoard.hidden = false
+        const game = new Game();
+        game.startGame();
+    })
 });
-
