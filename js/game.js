@@ -22,11 +22,10 @@ class Game {
         this.gameOver = false;
         this.maxDepth = 500;
         this.currentDepth = 0;
-        this.gameDirection = 1 // 1 in going down, -1 up
+        this.gameDirection = 1 // 1 is going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
         this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth, this.hook);
-        this.orientation = [[null, null, null], [null, null, null]];
         this.createEventListers();
     };
 
@@ -39,24 +38,11 @@ class Game {
 
     createSmartphoneEvent() {
         window.addEventListener('devicemotion', event => {
-            if (this.orientation[0][0] == null) {
-                this.orientation[0][0] = event.rotationRate.alpha;
-                this.orientation[0][1] = event.rotationRate.beta;
-                this.orientation[0][2] = event.rotationRate.gamma;
+            if (event.rotationRate.gamma > 5) {
+                this.hook.moveRight()
+            } else if (event.rotationRate.gamma < -5) {
+                this.hook.moveLeft()
             };
-
-            this.orientation[1][0] = event.rotationRate.alpha;
-            this.orientation[1][1] = event.rotationRate.beta;
-            this.orientation[1][2] = event.rotationRate.gamma;
-
-
-            if (this.orientation[0][0] < this.orientation[1][0]) {
-                this.hook.moveRight();
-            } else if (this.orientation[0][0] > this.orientation[1][0]) {
-                this.hook.moveLeft();
-            };
-            this.orientation.shift();
-            this.orientation.push([null, null, null]);
         });
     };
 
