@@ -18,10 +18,10 @@ import Fish from "./fish.js";
 //     return fishArr
 // };
 
-const fishAdder = (canvas, ctx, maxDepth,) => {
-    let arrPositionY = [400, 550, 700, 800, 850, 900, 1000, 1100, 1200, 1300, 1400]
+const fishAdder = (canvas, ctx, maxDepth, hook) => {
+    let arrPositionY = [550, 700, 800, 850, 900, 1000, 1100, 1200, 1300, 1400]
 
-    return arrPositionY.map(e => new Fish(canvas, ctx, maxDepth, e));
+    return arrPositionY.map(e => new Fish(canvas, ctx, maxDepth, e, hook));
 };
 
 export default fishAdder;

@@ -20,7 +20,7 @@ class Game {
         this.gameDirection = 1 // 1 in going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
-        this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth)
+        this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth, this.hook)
         // this.createFishes();
         this.orientation = [[null, null, null], [null, null, null]];
         this.createEventListers();
@@ -107,10 +107,27 @@ class Game {
         this.draw();
     };
 
+    checkCollision(fish, hook) {
+        const isInX =
+            fish.rightEdge() >= hook.leftEdge() &&
+            fish.leftEdge() <= hook.rightEdge()
+        const isInY =
+            fish.topEdge() <= hook.bottomEdge() &&
+            fish.bottomEdge() >= hook.topEdge()
+        return isInX && isInY
+    };
+
     update() {
+        this.fishes.forEach(fish => {
+            if (this.checkCollision(fish, this.hook)) {
+                this.gameDirection = -1
+                fish.isHooked = true
+            };
+        });
+
         if (this.currentDepth === this.maxDepth) {
             this.gameDirection = -1; // revert game direction
-        }
+        };
 
         switch (this.gameDirection) {
             case 1:
@@ -126,6 +143,8 @@ class Game {
         }
     };
 
+
+
     endGame() {
 
     }
@@ -137,7 +156,7 @@ class Game {
         this.fishes.forEach(e => {
             e.move(this.gameDirection);
             e.draw();
-        })
+        });
         return;
     };
 

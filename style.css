@@ -17,10 +17,6 @@
   display: block;
 }
 
-#hook,
-#fish1-right,
-#fish1-left,
-#fish2-right,
-#fish2-left {
+.img-class-asset {
   display: none;
 }
