@@ -1,7 +1,7 @@
 import Graphic from "./graphic.js";
 
 export default class Fish extends Graphic {
-    constructor(canvas, ctx, maxDepth) {
+    constructor(canvas, ctx, maxDepth, positionY) {
         super(canvas, ctx, maxDepth);
 
         this.imageRight = document.getElementById('fish1-right');
@@ -10,10 +10,9 @@ export default class Fish extends Graphic {
         this.x = null;
         this.randomizeDirection();
         this.randomizePositionX();
-        this.randomizePositionY();
         this.width = 30;
         this.height = 30;
-        this.y = this.canvas.height + this.height;
+        this.y = positionY;
     };
 
     randomizeDirection() {
@@ -31,6 +30,7 @@ export default class Fish extends Graphic {
     };
 
     randomizePositionY() {
+        // not in use
         const min = this.canvas.height / (1 / 3) + this.height
         const max = this.maxDepth / 2;
         this.y = Math.floor(Math.random() * (max - min + 1)) + min;

@@ -3,7 +3,8 @@
 
 import Depth from './depth.js';
 import Fish from './fish.js';
-import Hook from './hook.js'
+import Hook from './hook.js';
+import fishAdder from './fishAdder.js';
 
 const GAME_SPEED = 60;
 
@@ -19,17 +20,17 @@ class Game {
         this.gameDirection = 1 // 1 in going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
-        this.fishes = []
-        this.createFishes();
+        this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth)
+        // this.createFishes();
         this.orientation = [[null, null, null], [null, null, null]];
         this.createEventListers();
     };
 
-    createFishes() {
-        for (let i = 0; i < 10; i++) {
-            this.fishes.push(new Fish(this.canvas, this.ctx, this.maxDepth));
-        }
-    }
+    // createFishes() {
+    //     for (let i = 0; i < 10; i++) {
+    //         this.fishes.push(new Fish(this.canvas, this.ctx, this.maxDepth));
+    //     }
+    // }
 
     createCanvas() {
         this.canvas = document.getElementById('canvas1');
