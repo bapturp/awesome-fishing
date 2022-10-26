@@ -2,9 +2,9 @@
 // (c) Baptiste Dromer 2022
 
 import Depth from './depth.js';
-import Fish from './fish.js';
 import Hook from './hook.js';
 import fishAdder from './fishAdder.js';
+import Ui from './ui.js';
 
 const startButton = document.getElementById('start-button');
 const startScreen = document.getElementById('start-screen');
@@ -25,6 +25,7 @@ class Game {
         this.gameDirection = 1 // 1 is going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
+        this.ui = new Ui(this.canvas, this.ctx);
         this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth, this.hook);
         this.createEventListers();
     };
@@ -39,9 +40,9 @@ class Game {
     createSmartphoneEvent() {
         window.addEventListener('devicemotion', event => {
             if (event.rotationRate.gamma > 5) {
-                this.hook.moveRight()
+                this.hook.moveRight();
             } else if (event.rotationRate.gamma < 5) {
-                this.hook.moveLeft()
+                this.hook.moveLeft();
             };
         });
     };
@@ -134,11 +135,12 @@ class Game {
     draw() {
         this.depth.move(this.currentDepth);
         this.depth.draw();
-        this.hook.draw();
         this.fishes.forEach(e => {
             e.move(this.gameDirection);
             e.draw();
         });
+        this.hook.draw();
+        this.ui.draw(this.currentDepth);
         return;
     };
 };
