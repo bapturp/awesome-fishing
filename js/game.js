@@ -52,6 +52,7 @@ class Game {
     };
 
     createEventListers() {
+
         document.addEventListener('keydown', event => {
             switch (event.key) {
                 case 'ArrowLeft':
@@ -62,6 +63,11 @@ class Game {
                     break;
             };
         });
+
+        if (typeof DeviceMotionEvent === 'undefined') {
+            this.startGame();
+            return
+        };
 
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
             DeviceMotionEvent.requestPermission()
@@ -165,10 +171,12 @@ class Game {
 };
 
 const start = () => {
+
     startScreen.classList.add('hidden');
     gameBoard.classList.remove('hidden');
     scoreScreen.classList.add('hidden')
     const game = new Game();
+
 }
 
 // start the game
