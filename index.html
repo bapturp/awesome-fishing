@@ -15,14 +15,22 @@
   </head>
   <body>
     <div id="start-screen">
-      <h1>Awsome Fishing!</h1>
+      <h1>Awesome Fishing</h1>
       <button id="start-button">Play</button>
     </div>
-    <div id="game-board" hidden>
+
+    <div id="game-board" class="hidden">
       <canvas id="canvas1"></canvas>
     </div>
-    <div id="score-screen" hidden>Yay that was a good day chap!</div>
-    <div hidden>
+
+    <div id="score-screen" class="hidden">
+      <h2>Yay that was a good day chap!</h2>
+      <p id="reached-depth">Reached depth: <span></span></p>
+      <p id="caught-fishes">Caught fishes: <span></span></p>
+      <button id="restart-button">Restart</button>
+    </div>
+
+    <div hidden class="hidden">
       <img id="hook" src="./assets/hook.png" />
       <img id="fish1-right" src="./assets/fish1-right.png" />
       <img id="fish1-left" src="./assets/fish1-left.png" />

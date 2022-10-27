@@ -8,8 +8,11 @@ import Ui from './ui.js';
 
 const startButton = document.getElementById('start-button');
 const startScreen = document.getElementById('start-screen');
-const gameBoard = document.getElementById('canvas1');
+const gameBoard = document.getElementById('game-board');
 const scoreScreen = document.getElementById('score-screen');
+const restartButton = document.getElementById('restart-button')
+const reachedDepthEl = document.querySelector('#reached-depth span')
+const caughtFishesEl = document.querySelector('#caught-fishes span')
 
 const GAME_SPEED = 60;
 
@@ -22,6 +25,7 @@ class Game {
         this.gameOver = false;
         this.maxDepth = 500;
         this.currentDepth = 0;
+        this.reachedDepth = 0
         this.gameDirection = 1 // 1 is going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
@@ -64,11 +68,15 @@ class Game {
                 .then(permissionState => {
                     if (permissionState === 'granted') {
                         this.createSmartphoneEvent();
+
                     };
                 })
-                .catch(console.error);
+                .catch(console.error)
+                .finally(this.startGame)
+
         } else {
             this.createSmartphoneEvent();
+            this.startGame();
         };
     };
 
@@ -122,14 +130,25 @@ class Game {
                 break;
         };
 
+        if (this.currentDepth > this.reachedDepth) {
+            this.reachedDepth = this.currentDepth;
+        }
+
         if (this.gameDirection === -1 && this.currentDepth === 0) {
             this.gameOver = true;
         }
     };
 
     endGame() {
-        gameBoard.hidden = true;
-        scoreScreen.hidden = false;
+        gameBoard.classList.add('hidden');
+        scoreScreen.classList.remove('hidden');
+        reachedDepthEl.textContent = Math.floor(this.reachedDepth / 10 * -1);
+        caughtFishesEl.textContent = this.fishes.reduce((acc, fish) => {
+            if (fish.isHooked) {
+                return acc + 1;
+            };
+            return acc;
+        }, 0)
     };
 
     draw() {
@@ -145,14 +164,13 @@ class Game {
     };
 };
 
+const start = () => {
+    startScreen.classList.add('hidden');
+    gameBoard.classList.remove('hidden');
+    scoreScreen.classList.add('hidden')
+    const game = new Game();
+}
 
 // start the game
-window.addEventListener('load', () => {
-    const startButton = document.getElementById('start-button')
-    startButton.addEventListener('click', () => {
-        startScreen.hidden = true
-        gameBoard.hidden = false
-        const game = new Game();
-        game.startGame();
-    })
-});
+startButton.addEventListener('click', start);
+restartButton.addEventListener('click', start);
