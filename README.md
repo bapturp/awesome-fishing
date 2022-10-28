@@ -1,21 +1,22 @@
 # Awesome Fishing
 
+[Awesome fishing game](https://bapturp.github.io/awesome-fishing)
+
 Awesome fishing game made by Baptiste Dromer during [IronHack](https://ironhack.com) web developer bootcamp.
 
-## TODO
+## Why I choose this game?
 
-### Fish
+## key features
 
-Implement the logic to make them move up when the direction change.
-Spread the fishes on the y axis.
-Add second fish
-Implement collision that
+- JS
+- Collisions
+- CANVAS
+- Class
+- Conditions
+- DeviceMotionEvent
+-
 
-## Background
+## What's next
 
-- Fix background color
-- Implement logic to change the background gradiant when the direction change.
-
-## Game
-
-- Implement logic to revert direction once
+- Make it works on iOS if Apple fix its browser
+- Add more stuff

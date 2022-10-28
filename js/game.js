@@ -87,13 +87,14 @@ class Game {
     };
 
     startGame(currentTime) {
+        console.trace(this)
         if (this.gameOver) {
             this.endGame()
             return cancelAnimationFrame(currentTime);
         };
 
         // https://stackoverflow.com/questions/48816441/how-to-use-requestanimationframe-inside-a-class-object
-        window.requestAnimationFrame(this.startGame.bind(this));
+        requestAnimationFrame((ts) => this.startGame(ts));
 
         let secondsSinceLastRender = (currentTime - this.lastRenderTime) / 1000;
 
