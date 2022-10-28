@@ -12,10 +12,15 @@ export default class Depth extends Graphic {
     };
 
     draw() {
+
         const gradiant = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
+
         gradiant.addColorStop(0, `hsl(244, 56%, ${this.lightnessTop}%)`);
+
         gradiant.addColorStop(1, `hsl(244, 56%, ${this.lightnessBottom}%)`);
+
         this.ctx.fillStyle = gradiant;
+
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     };
 
