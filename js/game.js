@@ -4,6 +4,7 @@
 import Depth from './depth.js';
 import Hook from './hook.js';
 import fishAdder from './fishAdder.js';
+import bubbleAdder from './bubbleAdder.js';
 import Ui from './ui.js';
 
 const startButton = document.getElementById('start-button');
@@ -29,6 +30,7 @@ class Game {
         this.gameDirection = 1 // 1 is going down, -1 up
         this.depth = new Depth(this.canvas, this.ctx, this.maxDepth);
         this.hook = new Hook(this.canvas, this.ctx);
+        this.bubbles = bubbleAdder(this.canvas, this.ctx);
         this.ui = new Ui(this.canvas, this.ctx);
         this.fishes = fishAdder(this.canvas, this.ctx, this.maxDepth, this.hook);
         this.createEventListers();
@@ -86,21 +88,22 @@ class Game {
         };
     };
 
-    startGame(currentTime) {
-        console.trace(this)
+    startGame(timeStamp) {
         if (this.gameOver) {
             this.endGame()
-            return cancelAnimationFrame(currentTime);
+            return cancelAnimationFrame(timeStamp);
         };
-
         // https://stackoverflow.com/questions/48816441/how-to-use-requestanimationframe-inside-a-class-object
-        requestAnimationFrame((ts) => this.startGame(ts));
 
-        let secondsSinceLastRender = (currentTime - this.lastRenderTime) / 1000;
+        requestAnimationFrame(this.startGame.bind(this));
+
+        // requestAnimationFrame((timeStamp) => this.startGame(timeStamp));
+
+        let secondsSinceLastRender = (timeStamp - this.lastRenderTime) / 1000;
 
         if (secondsSinceLastRender < 1 / GAME_SPEED) return;
 
-        this.lastRenderTime = currentTime;
+        this.lastRenderTime = timeStamp;
 
         this.update();
         this.draw();
@@ -161,6 +164,10 @@ class Game {
     draw() {
         this.depth.move(this.currentDepth);
         this.depth.draw();
+        this.bubbles.forEach(e => {
+            e.move(this.gameDirection);
+            e.draw();
+        });
         this.fishes.forEach(e => {
             e.move(this.gameDirection);
             e.draw();

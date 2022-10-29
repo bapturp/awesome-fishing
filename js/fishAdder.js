@@ -19,7 +19,7 @@ import Fish from "./fish.js";
 // };
 
 const fishAdder = (canvas, ctx, maxDepth, hook) => {
-    let arrPositionY = [550, 700, 800, 850, 900, 1000, 1100, 1200, 1300, 1400]
+    let arrPositionY = [600, 700, 800, 850, 900, 1000, 1100, 1200, 1300, 1400]
 
     return arrPositionY.map(e => new Fish(canvas, ctx, maxDepth, e, hook));
 };

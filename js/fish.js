@@ -17,7 +17,7 @@ export default class Fish extends Graphic {
         this.y = positionY;
         this.hook = hook;
         this.isHooked = false;
-        this.collisionCoefReducer = .1
+        this.collisionCoefReducer = .2
         this.hookOffset = null;
         this.getHookOffset()
     };
@@ -59,7 +59,7 @@ export default class Fish extends Graphic {
         } else {
             image = this.imageLeft
         };
-
+        console.log(`Fish is at x: ${this.x}, y: ${this.y}`)
         this.ctx.drawImage(image, this.x, this.y, this.width, this.height);
     };
 
